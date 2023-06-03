@@ -10,9 +10,9 @@
             "request": "launch",
             "mainClass": "picture.averager.App",
             "projectName": "app",
-            "vmArgs": "-Xmx8G -Xms8G",
+            "vmArgs": "-Xmx4G -Xms4G",
             //"args": "/Users/kevinp/Desktop/video5.mp4 --brightest -t 6 --brighten=interactive -o pingas69"
-            "args": "C:\\Users\\ironm\\Nextcloud\\Documents\\Java Projects\\Picture Averager\\app\\testinputs\\video6.mp4 --altaverage -t 12 --brighten=interactive -o pingas69"
+            "args": "C:\\Users\\ironm\\Nextcloud\\Documents\\Java Projects\\Picture Averager\\app\\testinputs\\video6.mp4 average testinputs/testingreal 3024x4032"
         }
     ]
 }

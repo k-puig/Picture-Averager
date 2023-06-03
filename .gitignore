@@ -25,5 +25,9 @@ replay_pid*
 
 # personal stuff
 app/testinputs
+app/build
+app/build/*
 testinputs
 .gradle
+*.bin
+.DS_Store
