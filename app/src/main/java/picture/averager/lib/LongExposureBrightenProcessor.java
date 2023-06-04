@@ -3,13 +3,14 @@ package picture.averager.lib;
 import java.awt.image.BufferedImage;
 import java.math.BigInteger;
 
-public class LongExposureProcessor extends PictureProcessor {
+public class LongExposureBrightenProcessor extends PictureProcessor {
     private BigInteger imageCount;
     private byte[][][] r_data;
     private byte[][][] g_data;
     private byte[][][] b_data;
+    int maxBrightness = 0;
 
-    public LongExposureProcessor(int rows, int cols)
+    public LongExposureBrightenProcessor(int rows, int cols)
     {
         super(rows, cols);
 
@@ -17,15 +18,13 @@ public class LongExposureProcessor extends PictureProcessor {
         g_data = new byte[rows][cols][0];
         b_data = new byte[rows][cols][0];
 
-        byte[] zero = BigInteger.ZERO.toByteArray();
-
         for (int r = 0; r < rows; r++)
         {
             for (int c = 0; c < cols; c++)
             {
-                r_data[r][c] = zero;
-                g_data[r][c] = zero;
-                b_data[r][c] = zero;
+                r_data[r][c] = BigInteger.ZERO.toByteArray();
+                g_data[r][c] = BigInteger.ZERO.toByteArray();
+                b_data[r][c] = BigInteger.ZERO.toByteArray();
             }
         }
 
@@ -41,9 +40,9 @@ public class LongExposureProcessor extends PictureProcessor {
         {
             for (int c = 0; c < Math.min(img.getWidth(), this.cols); c++)
             {
-                int red = Math.min(255, new BigInteger(r_data[r][c]).divide(imageCount).intValue());
-                int green = Math.min(255, new BigInteger(g_data[r][c]).divide(imageCount).intValue());
-                int blue = Math.min(255, new BigInteger(b_data[r][c]).divide(imageCount).intValue());
+                int red = Math.min(255, 256 * new BigInteger(r_data[r][c]).divide(imageCount).intValue() / maxBrightness);
+                int green = Math.min(255, 256 * new BigInteger(g_data[r][c]).divide(imageCount).intValue() / maxBrightness);
+                int blue = Math.min(255, 256 * new BigInteger(b_data[r][c]).divide(imageCount).intValue() / maxBrightness);
 
                 int argb = 0xFF000000 | red << 16 | green << 8 | blue;
                 img.setRGB(c, r, argb);
@@ -61,6 +60,16 @@ public class LongExposureProcessor extends PictureProcessor {
             for (int c = 0; c < Math.min(img.getWidth(), this.cols); c++)
             {
                 int argb = img.getRGB(c, r);
+                int brightness = (
+                    ((argb & 0x00FF0000) >> 16) +
+                    ((argb & 0x0000FF00) >> 8) +
+                    ((argb & 0x000000FF))
+                ) / 3;
+                if (brightness > maxBrightness)
+                {
+                    maxBrightness = brightness;
+                }
+
                 BigInteger red = new BigInteger(r_data[r][c]);
                 BigInteger green = new BigInteger(g_data[r][c]);
                 BigInteger blue = new BigInteger(b_data[r][c]);
@@ -76,7 +85,6 @@ public class LongExposureProcessor extends PictureProcessor {
                     .toByteArray();
             }
         }
-
         imageCount = imageCount.add(BigInteger.ONE);
     }
 }

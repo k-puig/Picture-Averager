@@ -1,7 +1,6 @@
 package picture.averager;
 
 import org.bytedeco.javacv.*;
-import org.bytedeco.javacv.FFmpegFrameGrabber.Exception;
 
 import picture.averager.lib.PictureProcessor;
 import java.awt.image.BufferedImage;

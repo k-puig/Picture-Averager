@@ -7,12 +7,11 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 
 import org.apache.tika.Tika;
-import org.bytedeco.javacv.FrameGrabber.Exception;
 
 import picture.averager.lib.PictureProcessor;
 
 /*
- * A class which utilizes VideoFrameAdder and java.awt to add 
+ * A class which utilizes VideoFrameAdder and Java standard image I/O to add 
  * all possible images to the given processor within a given directory
  */
 public class RecursiveImageAdder 
@@ -26,7 +25,7 @@ public class RecursiveImageAdder
         this.processor = processor;
     }
 
-    public void start() throws Exception
+    public void start() throws org.bytedeco.javacv.FrameGrabber.Exception
     {
         if (file.isDirectory())
         {
