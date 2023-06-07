@@ -49,10 +49,16 @@ public class RecursiveImageAdder
             }
             else if (fileType.startsWith("image/"))
             {
-                try {
+                try 
+                {
                     BufferedImage image = ImageIO.read(file);
-                    processor.addImage(image);
-                } catch (IOException e) {
+                    if (image != null)
+                        processor.addImage(image);
+                    else
+                        System.err.println("Read image " + file.getAbsolutePath() + " contains null data");
+                } 
+                catch (IOException e) 
+                {
                     System.err.println("Given image somehow failed to be read via ImageIO.read(File f)");
                     e.printStackTrace();
                 }

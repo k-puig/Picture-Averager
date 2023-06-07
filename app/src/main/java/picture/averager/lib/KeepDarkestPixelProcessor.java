@@ -4,11 +4,13 @@ import java.awt.image.BufferedImage;
 
 public class KeepDarkestPixelProcessor extends PictureProcessor
 {
+    private boolean imageAdded;
     private int[][] img_data;
 
     public KeepDarkestPixelProcessor(int rows, int cols) 
     {
         super(rows, cols);
+        this.imageAdded = false;
         img_data = new int[rows][cols];
         for (int r = 0; r < rows; r++)
         {
@@ -61,5 +63,13 @@ public class KeepDarkestPixelProcessor extends PictureProcessor
                 }
             }
         }
+
+        imageAdded = true;
+    }
+
+    @Override
+    public boolean hasImages() 
+    {
+        return imageAdded;
     }
 }

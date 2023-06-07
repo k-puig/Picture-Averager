@@ -4,11 +4,13 @@ import java.awt.image.BufferedImage;
 
 public class KeepBrightestPixelProcessor extends PictureProcessor
 {
+    private boolean imageAdded;
     private int[][] img_data;
 
     public KeepBrightestPixelProcessor(int rows, int cols) 
     {
         super(rows, cols);
+        this.imageAdded = false;
         img_data = new int[rows][cols];
     }
 
@@ -54,5 +56,13 @@ public class KeepBrightestPixelProcessor extends PictureProcessor
                 }
             }
         }
+        
+        imageAdded = true;
+    }
+
+    @Override
+    public boolean hasImages() 
+    {
+        return imageAdded;
     }
 }

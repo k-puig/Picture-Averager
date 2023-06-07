@@ -79,4 +79,10 @@ public class LongExposureProcessor extends PictureProcessor {
 
         imageCount = imageCount.add(BigInteger.ONE);
     }
+
+    @Override
+    public boolean hasImages() 
+    {
+        return !imageCount.equals(BigInteger.ZERO);
+    }
 }

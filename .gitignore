@@ -32,3 +32,7 @@ testinputs
 .gradle/*
 *.bin
 .DS_Store
+app/bin
+app/bin/*
+.vscode
+.vscode/*

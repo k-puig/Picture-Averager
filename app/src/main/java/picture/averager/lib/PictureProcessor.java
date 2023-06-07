@@ -15,4 +15,5 @@ public abstract class PictureProcessor
 
     public abstract BufferedImage getImageResult();
     public abstract void addImage(BufferedImage img);
+    public abstract boolean hasImages();
 }

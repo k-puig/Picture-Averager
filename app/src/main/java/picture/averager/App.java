@@ -10,6 +10,7 @@ import picture.averager.lib.KeepBrightestPixelProcessor;
 import picture.averager.lib.KeepDarkestPixelProcessor;
 import picture.averager.lib.LongExposureBrightenProcessor;
 import picture.averager.lib.LongExposureDoubleProcessor;
+import picture.averager.lib.LongExposureInteractiveDoubleProcessor;
 import picture.averager.lib.LongExposureProcessor;
 import picture.averager.lib.PictureProcessor;
 
@@ -52,8 +53,12 @@ public class App {
         {
             this.processor = new KeepDarkestPixelProcessor(height, width);
         }
+        else if (args[0].equals("interactive"))
+        {
+            this.processor = new LongExposureInteractiveDoubleProcessor(height, width);
+        }
 
-        // Process from given path
+        // Process from given file or directory
         this.givenPath = args[1];
 
         // Specify output file name if given
@@ -69,25 +74,27 @@ public class App {
         RecursiveImageAdder recursiveImageAdder = new RecursiveImageAdder(new File(givenPath), processor);
         recursiveImageAdder.start();
 
-        File outputFile;
-        if (outputFileName == null)
+        while (processor.hasImages())
         {
-            int num = 1;
-            outputFile = new File("./IMG_1.png");
-            while (outputFile.exists())
+            File outputFile;
+            if (outputFileName == null)
             {
-                num++;
-                outputFile = new File("./IMG_" + num + ".png");
+                long num = 1l;
+                outputFile = new File("IMG_" + num + ".png");
+                while (outputFile.exists())
+                {
+                    outputFile = new File("IMG_" + (++num) + ".png");
+                }
             }
-        }
-        else
-        {
-            outputFile = new File(outputFileName + ".png");
-        }
+            else
+            {
+                outputFile = new File(outputFileName + ".png");
+            }
 
-        BufferedImage resultingImage = processor.getImageResult();
-        ImageIO.write(resultingImage, "png", outputFile);
-        System.out.println("File " + outputFile.getAbsolutePath() + " written");
+            BufferedImage resultingImage = processor.getImageResult();
+            ImageIO.write(resultingImage, "png", outputFile);
+            System.out.println("File " + outputFile.getAbsolutePath() + " written");
+        }
     }
 
     public static void main(String[] args) throws IOException, org.bytedeco.javacv.FrameGrabber.Exception
